@@ -7,12 +7,17 @@ describe("Given we have a board", function () {
     var graph;
     beforeEach(function () {
         graph = {
-            1: [2, 3, 4],
-            2: [3, 4], 3: [4],
+            nodes: {
+                1: [2, 3, 4],
+                2: [3, 4], 3: [4]
+            },
             visited: [],
-            currentVertex: -1
-        };
+            currentVertex: -1,
+            nodesCount: 4,
+            playerTurn: 0
+        }
     });
+
 
     describe("When player1 chooses a starting vertex", function () {
         var startingVertex;
@@ -31,7 +36,7 @@ describe("Given we have a board", function () {
         });
 
 
-        describe("Then player2 makes the first move", function () {
+        describe("When player2 makes the first move", function () {
             var nextVertex, hasPath;
             beforeEach(function () {
                 nextVertex = 2;
@@ -47,7 +52,69 @@ describe("Given we have a board", function () {
             it("should add the current vertex to visited array", function () {
                 expect(graph.visited).toEqual([1, 2]);
             });
+
+
+            describe("and then player1 makes the next move to the previous visited step", function () {
+                beforeEach(function () {
+                    nextVertex = 1;
+                    game.move(graph, nextVertex);
+                });
+
+                it("the move should not be possible", function () {
+                    expect(graph.visited).toEqual([1, 2]);
+                });
+            });
+
+            describe("Then player1 makes the next move", function () {
+                beforeEach(function () {
+                    nextVertex = 3;
+                    game.move(graph, nextVertex);
+                });
+
+                it("should add the current vertex to visited array", function () {
+                    expect(graph.visited).toEqual([1, 2, 3]);
+                });
+
+
+                describe("Then player2 makes the next move", function () {
+                    beforeEach(function () {
+                        nextVertex = 4;
+                        game.move(graph, nextVertex);
+                    });
+
+                    it("should add the current vertex to visited array", function () {
+                        expect(graph.visited).toEqual([1, 2, 3, 4]);
+                    });
+
+                    describe("Then player1 ran out of moves", function () {
+                        var haveMoves;
+                        beforeEach(function () {
+                            haveMoves = game.haveMoves(graph);
+                        });
+
+                        it("should not have any available moves", function () {
+                            expect(haveMoves).toBe(false);
+                        });
+                    });
+                });
+            });
         });
+    });
+});
+
+
+describe("Given we have a board without any moves left", function () {
+    var graph;
+    beforeEach(function () {
+        graph = {
+            nodes: {
+                1: [2, 3, 4],
+                2: [3, 4], 3: [4]
+            },
+            visited: [1, 2, 3, 4],
+            currentVertex: -1,
+            playerTurn: 0
+        }
     });
 });
 
