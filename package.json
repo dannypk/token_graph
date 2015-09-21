@@ -1,0 +1,22 @@
+{
+  "name": "token_graph",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./node_modules/jasmine-node/bin/jasmine-node spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dannypk/token_graph.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dannypk/token_graph/issues"
+  },
+  "homepage": "https://github.com/dannypk/token_graph#readme",
+  "dependencies": {
+    "jasmine-node": "^1.14.5"
+  }
+}
