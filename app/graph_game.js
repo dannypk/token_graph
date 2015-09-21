@@ -5,8 +5,38 @@ module.exports = {
     setStartingPoint: setStartingPoint,
     hasPath: hasPath,
     move: move,
-    haveMoves: haveMoves
+    haveMoves: haveMoves,
+    play: play,
+    getNeighbours: getNeighbours
 };
+
+function play(graph) {
+
+    return [1,2];
+}
+
+function getNeighbours(graph, vertex) {
+    neighbours = [];
+    if (graph.nodes[vertex]) {
+        graph.nodes[vertex].forEach(function (neighbour) {
+            if (neighbours.indexOf(neighbour) === -1) {
+                neighbours.push(neighbour);
+            }
+        });
+    }
+
+    for (var neighbour in graph.nodes) {
+        if (graph.nodes.hasOwnProperty(neighbour)) {
+            neighbour = parseInt(neighbour);
+            if (neighbour !== vertex) {
+                if (graph.nodes[neighbour].indexOf(vertex) >= -1 && neighbours.indexOf(neighbour) === -1)
+                    neighbours.push(neighbour);
+            }
+        }
+    }
+
+    return neighbours;
+}
 
 function setStartingPoint(graph, startingVertex) {
     graph.visited.push(startingVertex);
@@ -40,7 +70,7 @@ function haveMoves(graph) {
         if (graph.nodes.hasOwnProperty(vertex)) {
             vertex = parseInt(vertex);
             if (vertex !== currentVertex) {
-                if (graph.nodes[vertex].indexOf(currentVertex) && graph.visited.indexOf(vertex) === -1)
+                if (graph.nodes[vertex].indexOf(currentVertex) >= -1 && graph.visited.indexOf(vertex) === -1)
                     moves = true;
             }
         }

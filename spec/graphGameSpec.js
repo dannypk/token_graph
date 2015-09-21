@@ -18,6 +18,16 @@ describe("Given we have a board", function () {
         }
     });
 
+    describe("for node 3", function () {
+        var neighbours;
+        beforeEach(function () {
+            neighbours = game.getNeighbours(graph, 3);
+        });
+        it("should return neighbours 1,2,4", function () {
+            expect(neighbours).toEqual([4, 1, 2]);
+        })
+    });
+
 
     describe("When player1 chooses a starting vertex", function () {
         var startingVertex;
@@ -103,8 +113,8 @@ describe("Given we have a board", function () {
 });
 
 
-describe("Given we have a board without any moves left", function () {
-    var graph;
+describe("Given we have a random board", function () {
+    var graph, result;
     beforeEach(function () {
         graph = {
             nodes: {
@@ -114,7 +124,15 @@ describe("Given we have a board without any moves left", function () {
             visited: [1, 2, 3, 4],
             currentVertex: -1,
             playerTurn: 0
-        }
+        };
+
+        game.setStartingPoint(graph, 3);
+        result = game.play(graph);
+    });
+
+
+    it("should calculate a proper path to visit the tree", function () {
+        expect(result.length).toBeGreaterThan(0);
     });
 });
 
